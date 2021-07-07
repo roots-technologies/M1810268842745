@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+	<record model="ir.ui.view" id="manifest_financiale_report_form_view">
+		<field name="name">Rapport financier</field>
+		<field name="model">manifest.financial.report</field>
+		<field name="arch" type="xml">
+			<form string="Rapport financier">
+				<group>
+					<group>
+						<field name ="date_debut"/>
+					</group>
+					<group>
+                        <field name="date_fin"/>
+					</group>
+				</group>
+				<footer>
+					<button name="imprimer_rapport_financier" type="object" icon="fa-print" string="Imprimer" class="oe_highlight" />
+					<button special="cancel" string="Annuler"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="manifest_rapport_financier_action" model="ir.actions.act_window">
+		<field name="name">Rapport financier</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">manifest.financial.report</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="manifest_financiale_report_form_view"/>
+		<field name="target">new</field>
+	</record>
+
+	<!-- <menuitem 
+		id="impression_manifest_rapport_financier" 
+		parent="manifest_rapport_facture_menu" 
+		name="Rapport financier"
+		action="manifest_rapport_financier_action"
+		/> -->
+	</odoo>

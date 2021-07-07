@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_manifest_manifest,access.manifest.manifest,model_manifest_manifest,base.group_user,1,1,1,1
+access_manifest_vehicule,access.manifest.vehicule,model_manifest_vehicule,base.group_user,1,1,1,1
+access_vehicule_categorie,access.vehicule.categorie,model_vehicule_categorie,base.group_user,1,1,1,1
+access_manifest_navire,access.manifest.navire,model_manifest_navire,base.group_user,1,1,1,1
+access_manifest_type_vehicule,access.manifest.type.vehicule,model_manifest_type_vehicule,base.group_user,1,1,1,1
+access_manifest_marque,access.manifest.marque,model_manifest_marque,base.group_user,1,1,1,1
+access_manifest_list,access.manifest.list,model_manifest_list,base.group_user,1,1,1,1
+access_manifest_financial_report,access.manifest.financial.report,model_manifest_financial_report,base.group_user,1,1,1,1
+access_manifest_operation,access.manifest.operation,model_manifest_operation,base.group_user,1,1,1,0
+access_manifest_operation_wizard,access.manifest.operation.wizard,model_manifest_operation_wizard,base.group_user,1,1,1,1

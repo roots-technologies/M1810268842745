@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+	<record model="ir.ui.view" id="imprimer_liste_manifest_form">
+		<field name="name">Liste des manifests</field>
+		<field name="model">manifest.list</field>
+		<field name="arch" type="xml">
+			<form string="Liste des manifests">
+				<group>
+					<group>
+						<field name ="date_debut"/>
+                        <field name ="partner_id"/>
+					</group>
+					<group>
+                        <field name="date_fin"/>
+                        <field name="navire_id"/>
+					</group>
+				</group>
+				<footer>
+					<button name="imprimer_liste_manifest" type="object" icon="fa-print" string="Imprimer" class="oe_highlight" />
+					<button special="cancel" string="Annuler"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="manifest_list_action" model="ir.actions.act_window">
+		<field name="name">Liste des manifests</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">manifest.list</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="imprimer_liste_manifest_form"/>
+		<field name="target">new</field>
+	</record>
+
+	<menuitem 
+		id="impression_manifest_list" 
+		parent="manifest_rapport_facture_menu" 
+		name="Liste des manifests"
+		action="manifest_list_action"
+		/>
+	</odoo>

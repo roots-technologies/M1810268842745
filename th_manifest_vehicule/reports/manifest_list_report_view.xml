@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <report
+		id = "th_manifest_list_report_view"
+		model = "manifest.list"
+		string = "Manifest"
+		report_type = "qweb-pdf"
+		name = "th_manifest_vehicule.manifest_list_report_view"
+		file = "th_manifest_vehicule.manifest_list_report_view"
+		/>
+    
+        <template id="manifest_list_report_view">
+			<t t-call="web.html_container">
+                    <t t-call="web.external_layout">
+                    <div class="page">
+						<h5 class="text-center">LISTE DES MANIFESTS</h5>
+						<table class="table table-sm">
+							<thead>
+                                <tr>
+                                    <th class="text-right">N° d'ordre</th>
+                                    <th>Marque et type</th>
+                                    <th class="text-right">N° de chassis</th>
+                                    <th class="text-right">N° du B/L</th>
+                                    <th class="text-right">Poids</th>
+                                </tr>
+                            </thead>
+							<t t-set="n" t-value="0"/>
+							<t t-foreach="liste_manifest" t-as="m">
+								<tr>
+									<td colspan="5" class="text-center"><t t-esc="m['partner_id']"/></td>
+								</tr>
+								<t t-foreach="m['vehicule_ids']" t-as="v">
+									<t t-set="n" t-value="n + 1"/>
+									<tr>
+										<td class="text-right"><t t-esc="n"/> </td>
+										<td><t t-esc="v['product_id']"/></td>
+										<td class="text-right"><t t-esc="v['chassis']"/> </td>
+										<td class="text-right"><t t-esc="v['numero_bl']"/> </td>
+										<td class="text-right"><t t-esc="v['poids']"/> </td>
+									</tr>
+								</t>
+							</t>                        
+						</table>
+                    </div>
+                </t>
+			</t>
+		</template>
+
+</odoo>

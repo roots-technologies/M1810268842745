@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- Add you code here -->
+        <record id="res_partner_inherit_form" model="ir.ui.view">
+            <field name="name">res.partner.inherit.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <field name="type" position="before">
+                    <field name="account_number"/>
+                </field>
+                <div name="button_box" position="inside">
+                    <button name="liste_des_operations" type="object" class="oe_stat_button" icon="fa-money" context="{'default_partner_id':active_id}">
+                        <field widget="statinfo" name="solde_compte" string="Solde compte" />
+                    </button>
+                    <button name="liste_des_manifest" type="object" class="oe_stat_button" icon="fa-taxi" context="{'default_partner_id':active_id}">
+                        <field widget="statinfo" name="manifest_total" string="Manifest" />
+                    </button>
+                </div>
+            </field>
+        </record>
+
+        <record id="manifest_operation_menu_action" model="ir.actions.act_window">
+			<field name="name">Opérations</field>
+			<field name="res_model">manifest.operation</field>
+			<field name="view_mode">tree,form,kanban</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre première opération
+				</p>
+			</field>
+		</record>
+
+        <record id="manifest_operation_form" model="ir.ui.view">
+            <field name="name">manifest.operation.form</field>
+            <field name="model">manifest.operation</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button name="confirmer_operation" states="draft" string="Confirmer"  type="object" class="btn btn-primary" />
+                        <button name="annuller_operation" states="confirmed" string="Annuler"  type="object" class="btn btn-primary" />
+                        <button name="mettre_en_brouillon" states="canceled" string="Mettre en brouillon"  type="object" class="btn btn-primary" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date" attrs="{'readonly': [('state', 'in', ['confirmed'])]}"/>
+                                <field name="partner_id" attrs="{'readonly': [('state', 'in', ['confirmed'])]}"/>
+                                <field name="type_operation" widget="radio" attrs="{'readonly': [('state', 'in', ['confirmed'])]}"/>
+                            </group>
+                            <group>
+                                <field name="montant" attrs="{'readonly': [('state', 'in', ['confirmed'])]}"/>
+                                <field name="solde" attrs="{'readonly': 1}"/>
+                                <field name="responsable_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="manifest_operation_tree" model="ir.ui.view">
+            <field name="name">manifest.operation.tree</field>
+            <field name="model">manifest.operation</field>
+            <field name="arch" type="xml">
+                <tree string="Opération">
+                    <field name="date"/>
+                    <field name="partner_id"/>
+                    <field name="type_operation"/>
+                    <field name="montant" sum="Somme total"/>
+                    <field name="responsable_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="account_payment_inherit_form" model="ir.ui.view">
+            <field name="name">account.payment.inherit.form</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form" />
+            <field name="arch" type="xml">
+                <field name="journal_id" position="after">
+                    <field name="solde_final"/>
+                </field>
+            </field>
+        </record>
+
+         <record id="manifest_analyse_operation_menu_action" model="ir.actions.act_window">
+			<field name="name">Opérations</field>
+			<field name="res_model">manifest.operation</field>
+			<field name="view_mode">pivot,tree</field>
+			<field name="domain">[]</field>
+			<field name="help" type="html">
+				<p class="oe_view_noconten_create">
+					Créez votre première opération
+				</p>
+			</field>
+		</record>
+
+        <record id="analyse_operation_pivot" model="ir.ui.view">
+            <field name="name">analyse.operation.pivot</field>
+            <field name="model">manifest.operation</field>
+            <field name="arch" type="xml">
+                <pivot string="Opération">
+                    <field name="partner_id" type="col"/>
+                    <field name="type_operation" type="col"/>
+                    <field name="date" interval="day"  type="row"/>
+                    <field name="montant" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <menuitem 
+            name="Opérations" 
+            sequence="5" 
+            id="manifest_operation_menu" 
+            parent="manifest_importateur_facture_menu" 
+            action="manifest_operation_menu_action"/>
+        <menuitem
+            id="analyse_operation_menu"
+            name="Analyse des opérations"
+            action="manifest_analyse_operation_menu_action"
+            parent="manifest_rapport_facture_menu"
+            sequence="10"/>
+    </data>
+</odoo>

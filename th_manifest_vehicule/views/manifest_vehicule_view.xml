@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data noupdate="1">
+        <record id="manifest_manifest_menu_action" model="ir.actions.act_window">
+            <field name="name">Manifest</field>
+            <field name="res_model">manifest.manifest</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_noconten_create">
+                    Pas de donnée à afficher
+                </p>
+            </field>
+        </record>
+
+        <record id="manifest_manifest_form" model="ir.ui.view">
+            <field name="name">manifest.manifest.form</field>
+            <field name="model">manifest.manifest</field>
+            <field name="arch" type="xml">
+                <form string="Manifest">
+                    <header>
+                        <button name="confrmer_manifest" states="draft"  type="object" class="btn btn-primary" string="Confirmer"/>
+                        <button name="comptabiliser" states="confirmed"  type="object" class="btn btn-primary" string="Créer une facture"/>
+                        <button name="marque_livre" states="confirmed,accounted"  type="object"  string="Marquer comme livré"/>
+                        <button name="marque_annule" states="confirmed,accounted"  type="object"  string="Annuler"/>
+                        <button name="marque_brouillon" states="canceled"  type="object"  string="Marquer comme brouillon"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,delivered,accounted"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="navire_id" attrs="{'readonly': [('state', 'in', ['confirmed', 'delivered', 'accounted','canceled'])]}" />
+                            </group>
+                            <group>
+                                <field name="date_arrive" attrs="{'readonly': [('state', 'in', ['confirmed', 'delivered', 'accounted','canceled'])]}" />
+                                <field name="partner_id" attrs="{'readonly': [('state', 'in', ['confirmed', 'delivered', 'accounted','canceled'])]}" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="vehicule" string="Véhicule">
+                                <field name="vehicule_ids" attrs="{'readonly': [('state', 'in', ['confirmed', 'delivered', 'accounted','canceled'])]}"/>                                  
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers"/>
+	                    <field name="activity_ids" widget="mail_activity"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+	                </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="manifest_manifest_tree" model="ir.ui.view">
+            <field name="name">manifest.manifest.tree</field>
+            <field name="model">manifest.manifest</field>
+            <field name="arch" type="xml">
+                <tree string="Manifest">
+                    <field name="date_arrive" />
+                    <field name="name" />
+                    <field name="partner_id" />
+                    <field name="navire_id" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="manifest_vehicule_tree" model="ir.ui.view">
+            <field name="name">manifest.vehicule.tree</field>
+            <field name="model">manifest.vehicule</field>
+            <field name="arch" type="xml">
+                <tree string="Véhicule" editable="bottom">
+                    <field name="product_id" />
+                    <field name="marque_id" />
+                    <field name="type_vehicule_id" />
+                    <field name="chassis" />
+                    <field name="categorie_id" />
+                    <field name="numero_bl" />
+                    <field name="poids" />
+                    <field name="status" widget="radio" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="manifest_categorie_menu_action" model="ir.actions.act_window">
+            <field name="name">Catégorie</field>
+            <field name="res_model">vehicule.categorie</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_noconten_create">
+                    Pas de données à afficher
+                </p>
+            </field>
+        </record>
+
+        <record id="manifest_vehicule_menu_action" model="ir.actions.act_window">
+            <field name="name">Article</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('dispo_en_manifest', '=', True)]</field>
+            <field name="context">{'default_dispo_en_manifest':True}</field>
+            <field name="help" type="html">
+                <p class="oe_view_noconten_create">
+                    Pas de donnée à afficher
+                </p>
+            </field>
+        </record>
+        <record id="manifest_navire_menu_action" model="ir.actions.act_window">
+            <field name="name">Navire</field>
+            <field name="res_model">manifest.navire</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_noconten_create">
+                    Pas de donnée à afficher
+                </p>
+            </field>
+        </record>
+        <record id="manifest_facture_menu_action" model="ir.actions.act_window">
+            <field name="name">Facture</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type', '=', 'out_invoice')]</field>
+            <field name="context">{'default_type': 'out_invoice'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_noconten_create">
+                    Pas de donnée à afficher
+                </p>
+            </field>
+        </record>
+        <record id="manifest_type_vehicule_menu_action" model="ir.actions.act_window">
+            <field name="name">Type de véhicule</field>
+            <field name="res_model">manifest.type.vehicule</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_noconten_create">
+                    Pas de donnée à afficher
+                </p>
+            </field>
+        </record>
+        <record id="manifest_importateur_menu_action" model="ir.actions.act_window">
+            <field name="name">Importateur</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_noconten_create">
+                    Pas de donnée à afficher
+                </p>
+            </field>
+        </record>
+
+        <record id="account_move_inherit_form" model="ir.ui.view">
+            <field name="name">account.move.inherit.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//page[4]" position="after">
+                    <page name="manifest" string="Manifest">
+                        <group>
+                            <group>
+                                <field name="manifest_id"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="manifest_report_analyse_menu_action" model="ir.actions.act_window">
+            <field name="name">Analyste de manifests</field>
+            <field name="res_model">manifest.manifest</field>
+            <field name="view_mode">pivot,tree,form</field>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_noconten_create">
+                    Pas de donnée à afficher
+                </p>
+            </field>
+        </record>
+
+        <record id="product_product_inherit_form" model="ir.ui.view">
+            <field name="name">product.product.inherit.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//page[3]" position="after">
+                    <page name="manifest" string="Manifest">
+                        <group>
+                            <group>
+                                <field name="dispo_en_manifest"/>
+                                <field name="categorie_id"/>
+                                <field name="vehicule_type_id"/>
+                                <field name="marque_vehicule"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="product_template_inherit_form" model="ir.ui.view">
+            <field name="name">product.template.inherit.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//page[3]" position="after">
+                    <page name="manifest" string="Manifest">
+                        <group>
+                            <group>
+                                <field name="dispo_en_manifest"/>
+                                <field name="categorie_id"/>
+                                <field name="vehicule_type_id"/>
+                                <field name="marque_vehicule"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="manifest_manifest_search" model="ir.ui.view">
+            <field name="name">manifest.manifest.search</field>
+            <field name="model">manifest.manifest</field>
+            <field name="arch" type="xml">
+                <search string="Recherche des manifests">
+                    <field name="name" />
+                    <field name="partner_id" />
+                    <field name="navire_id" />
+                    <field name="state" />
+                </search>
+            </field>
+        </record>
+
+        <menuitem
+            id="manifest_manifest_root_menu"
+            name="Manifest"
+            web_icon="th_manifest_vehicule,static/description/icon.png"
+            sequence="1"/>
+
+        <menuitem
+            id="manifest_manifest_menu"
+            name="Manifest"
+            action="manifest_manifest_menu_action"
+            parent="manifest_manifest_root_menu"
+            sequence="1"/>
+
+        <menuitem
+            id="manifest_manifest_facture_menu"
+            name="Facture"
+            action="manifest_facture_menu_action"
+            parent="manifest_manifest_root_menu"
+            sequence="1"/>
+
+        <menuitem
+            id="manifest_importateur_facture_menu"
+            name="Importateur"
+            parent="manifest_manifest_root_menu"
+            sequence="1"/>
+
+        <menuitem
+            id="manifest_importateur_menu"
+            name="Compte importateur"
+            action="manifest_importateur_menu_action"
+            parent="manifest_importateur_facture_menu"
+            sequence="3"/>
+
+        <menuitem
+            id="manifest_rapport_facture_menu"
+            name="Rapport"
+            parent="manifest_manifest_root_menu"
+            sequence="1"/>
+
+        <menuitem
+            id="manifest_rapport_analyse_facture_menu"
+            name="Analyste des manifests"
+            action="manifest_report_analyse_menu_action"
+            parent="manifest_rapport_facture_menu"
+            sequence="1"/>
+
+        <menuitem
+            id="manifest_config_menu"
+            name="Configuration"
+            parent="manifest_manifest_root_menu"
+            sequence="10"/>
+
+        <menuitem
+            id="manifest_config_menu"
+            name="Configuration"
+            parent="manifest_manifest_root_menu"
+            sequence="10"/>
+
+        <menuitem
+            id="manifest_categorie_menu"
+            name="Catégorie de véhicule"
+            action="manifest_categorie_menu_action"
+            parent="manifest_config_menu"
+            sequence="1"/>
+
+        <menuitem
+            id="manifest_type_vehicule_menu"
+            name="Type de véhicule"
+            action="manifest_type_vehicule_menu_action"
+            parent="manifest_config_menu"
+            sequence="1"/>
+
+        <menuitem
+            id="manifest_navire_menu"
+            name="Navire"
+            action="manifest_navire_menu_action"
+            parent="manifest_config_menu"
+            sequence="1"/>
+
+        <menuitem
+            id="manifest_vehicule_menu"
+            name="Véhicule"
+            action="manifest_vehicule_menu_action"
+            parent="manifest_config_menu"
+            sequence="10"/>
+    </data>
+</odoo>

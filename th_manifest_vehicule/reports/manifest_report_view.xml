@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <report
+		id = "th_manifest_report_view"
+		model = "manifest.manifest"
+		string = "Manifest"
+		report_type = "qweb-pdf"
+		name = "th_manifest_vehicule.manifest_report_view"
+		file = "th_manifest_vehicule.manifest_report_view"
+		/>
+    
+        <template id="manifest_report_view">
+			<t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                    <style>
+                        
+                    </style>
+                    <div class="page">
+                        <div id="informations" class="row mt32 mb32">
+                            <div class="col-auto col-3 mw-100 mb-2" name="manifest_ref">
+                                <strong>Manifest N°</strong>
+                                <p class="m-0" t-field="o.name"/>
+                            </div>
+                            <div class="col-auto col-3 mw-100 mb-2" name="date_arrive">
+                                <strong>Date d'arrivée</strong>
+                                <p class="m-0" t-field="o.date_arrive"/>
+                            </div>
+                            <div class="col-auto col-3 mw-100 mb-2" name="navire_id">
+                                <strong>Navire :</strong>
+                                <p class="m-0" t-field="o.navire_id"/>
+                            </div>
+                            <div class="col-auto col-3 mw-100 mb-2" name="partner_id">
+                                <strong>Importateur :</strong>
+                                <p class="m-0" t-field="o.partner_id"/>
+                            </div>
+                        </div>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th class="text-right">N° D'ordre</th>
+                                    <th>Marque et type</th>
+                                    <th class="text-right">N° De chassis</th>
+                                    <th class="text-right">N° Du B/L</th>
+                                    <th class="text-right">Poids</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="n" t-value="0"/>
+                                <t t-foreach="o.vehicule_ids" t-as="v">
+                                    <t t-set="n" t-value="n + 1"/>
+                                    <tr>
+                                        <td class="text-right"><t t-esc="n"/></td>
+                                        <td><t t-esc="v.product_id.name"/></td>
+                                        <td class="text-right"><t t-esc="v.chassis"/></td>
+                                        <td class="text-right"><t t-esc="v.numero_bl"/></td>
+                                        <td class="text-right"><t t-esc="v.poids"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                    </t>
+                </t>
+			</t>
+		</template>
+
+</odoo>

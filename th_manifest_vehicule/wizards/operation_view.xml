@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	
+	<record model="ir.ui.view" id="creer_operation_form">
+		<field name="name">Créer une opération</field>
+		<field name="model">manifest.operation.wizard</field>
+		<field name="arch" type="xml">
+			<form string="Créer une opération">
+				<group>
+					<group>
+						<field name ="date_operation"/>
+                        <field name ="partner_id"/>
+                        <field name="type_operation" widget="radio"/>
+					</group>
+					<group>
+                        <field name="montant"/>
+                        <field name="solde_initial"/>
+                        <field name="solde_final"/>
+					</group>
+				</group>
+				<footer>
+					<button name="creer_operation" type="object" icon="fa-print" string="Enregistrer" class="oe_highlight" />
+					<button special="cancel" string="Annuler"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="creer_operation_action" model="ir.actions.act_window">
+		<field name="name">Liste des manifests</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">manifest.operation.wizard</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="creer_operation_form"/>
+		<field name="target">new</field>
+	</record>
+
+	<menuitem 
+		id="creer_operation_action_menu" 
+		parent="manifest_importateur_facture_menu" 
+		name="Enregistrer une opération"
+		action="creer_operation_action"
+		/>
+	</odoo>
