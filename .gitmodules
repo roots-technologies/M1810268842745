@@ -1,0 +1,4 @@
+[submodule "thomas51516/gescoth"]
+	path = thomas51516/gescoth
+	url = git@github.com:thomas51516/gescoth.git
+	branch = main
