@@ -2,3 +2,8 @@
 	path = thomas51516/gescoth
 	url = git@github.com:thomas51516/gescoth.git
 	branch = main
+
+[submodule "thomas51516/th_paie_benin"]
+	path = thomas51516/th_paie_benin
+	url = git@github.com:thomas51516/th_paie_benin.git
+	branch = main
